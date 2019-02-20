@@ -1,13 +1,10 @@
-from abc import ABCMeta, abstractmethod
 from Queue import Queue
 
 
-class AbstractActor(object):
-
-    __metaclass__ = ABCMeta
+class BaseActor(object):
 
     def __init__(self):
-        super(AbstractActor, self).__init__()
+        super(BaseActor, self).__init__()
         self.task_list = Queue()
         self.idle = lambda: None
         self.troupes = []
@@ -18,7 +15,6 @@ class AbstractActor(object):
     def recieve_message(self, message):
         self.schedule_task(message)
 
-    @abstractmethod
     def get_next_task(self):
         '''
         Gets the next task from relevant work queues.
@@ -45,7 +41,6 @@ class AbstractActor(object):
         while True:
             yield self.get_next_task()
 
-    @abstractmethod
     def perform(self):
         '''
         A generator which _executes_ each task this actor is expected to perform.
@@ -59,19 +54,6 @@ class AbstractActor(object):
     @property
     def available_task_lists(self):
         return [self.task_list] + list(map(lambda troupe: troupe.work_queue, self.troupes))
-
-
-class BaseActor(AbstractActor):
-    '''
-    A concrete implementation of AbstractActor.
-    Runs with the default implementations of its abstract methods.
-    '''
-
-    def get_next_task(self):
-        return super(BaseActor, self).get_next_task()
-        
-    def perform(self):
-        return super(BaseActor, self).perform()
 
 
 class PatternMatchingActor(BaseActor):

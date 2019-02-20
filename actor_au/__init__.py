@@ -1,1 +1,1 @@
-from actor_au import BaseActor, AbstractActor, PatternMatchingActor, Troupe
+from actor_au import BaseActor, BaseActor, PatternMatchingActor, Troupe

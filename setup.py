@@ -20,7 +20,7 @@ URL = 'http://probablytom.com/'
 EMAIL = 'w.wallis.1@research.gla.ac.uk'
 AUTHOR = 'Tom Wallis'
 REQUIRES_PYTHON = '<3'
-VERSION = '0.0.1a7'
+VERSION = '0.0.1b1'
 
 # What packages are required for this module to be executed?
 REQUIRED = [
