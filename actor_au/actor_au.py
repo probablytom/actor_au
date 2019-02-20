@@ -83,3 +83,6 @@ class Troupe(object):
 
     def recieve_message(self, message):
         self.troupe_work_queue.put(message)
+
+    def schedule_task(self, task):
+        self.recieve_message(task)
