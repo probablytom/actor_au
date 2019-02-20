@@ -4,7 +4,6 @@ from Queue import Queue
 class BaseActor(object):
 
     def __init__(self):
-        super(BaseActor, self).__init__()
         self.task_list = Queue()
         self.idle = lambda: None
         self.troupes = []
