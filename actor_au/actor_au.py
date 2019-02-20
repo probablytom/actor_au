@@ -53,7 +53,7 @@ class BaseActor(object):
 
     @property
     def available_task_lists(self):
-        return [self.task_list] + list(map(lambda troupe: troupe.work_queue, self.troupes))
+        return [self.task_list] + list(map(lambda troupe: troupe.troupe_work_queue, self.troupes))
 
 
 class PatternMatchingActor(BaseActor):
