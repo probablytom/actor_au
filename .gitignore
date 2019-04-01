@@ -106,3 +106,7 @@ venv.bak/
 
 ## CUSTOM
 .idea/
+
+# Our venv
+untitled/
+asp/
