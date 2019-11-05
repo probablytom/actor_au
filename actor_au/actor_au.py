@@ -7,12 +7,24 @@ class BaseActor(object):
         self.task_list = Queue()
         self.idle = lambda: None
         self.troupes = []
+        self.current_work_origin = None
+        self.curr_task = None
 
     def schedule_task(self, task):
         self.task_list.put(task)
 
     def recieve_message(self, message):
         self.schedule_task(message)
+
+    def requeue_current_work(self):
+        if self.current_work_origin is not None:
+            # Put the current task back to the end of the queue
+            self.current_work_origin.put(self.curr_task)
+
+            # Reset state of current work and queue to None; we've dropped our current work.
+            self.curr_task = None
+            self.current_work_origin = None
+
 
     def get_next_task(self):
         '''
@@ -22,13 +34,21 @@ class BaseActor(object):
             - have any necessary arguments passed in _already_ via functools.partial
         :return: function representing the next task for this actor to execute
         '''
+        task = None
         # If we can get something from any available task queue, prioritise that work.
         for task_list in self.available_task_lists:
             if not task_list.empty():
-                return task_list.get()
+                self.current_work_origin = task_list
+                task= task_list.get()
 
         # No work found in any relevant queue. Return an idle process.
-        return self.idle
+        if task is None:
+            task = self.idle
+            self.current_work_origin = None
+
+
+        self.curr_task = task
+        return task
 
     def yield_tasks(self):
         '''
